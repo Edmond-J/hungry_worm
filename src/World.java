@@ -9,10 +9,10 @@ public class World {
 	ArrayList<Worm> wormList = new ArrayList<Worm>();
 	ArrayList<Coordinate> foodList = new ArrayList<Coordinate>();
 
-	public World(int w, int h, int f, int worm) {
+	public World(int w, int h, int food, int worm) {
 		width = w;
 		height = h;
-		foodQua = f;
+		foodQua = food;
 		wormQua = worm;
 	}
 
@@ -52,13 +52,22 @@ public class World {
 	}
 
 	public void refreshWrold(int n, int speed) {
-		for (int i = 0; i < n; i++) {
+		while (checkAlive()) {
 			drawWorld();
 			try {
 				Thread.sleep(1000/speed);
 			} catch (InterruptedException e) {
 			}
 		}
+	}
+
+	public boolean checkAlive() {
+		for (Worm w : wormList) {
+			if (w.alive)
+				return true;
+		}
+		System.out.println("----------------GAME OVER-----------------");
+		return false;
 	}
 
 	public void drawWorld() {// 不断刷新
@@ -89,6 +98,7 @@ public class World {
 		}
 		System.out.println("------------------------------------------");
 		for (Worm w : wormList) {
+			if(w.alive)
 			w.action(this);
 		}
 	}

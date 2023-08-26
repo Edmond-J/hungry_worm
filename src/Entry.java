@@ -1,8 +1,8 @@
 public class Entry {
 	public static void main(String[] args) {
-		World world = new World(20, 10, 3, 3);
+		World world = new World(20, 10, 5, 3);//width, height, food, worms
 		world.createFood();
 		world.createWorm();
-		world.refreshWrold(100, 5);
+		world.refreshWrold(200, 5);
 	}
 }

@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 
 public class Worm {
+	boolean alive;
 	ArrayList<Coordinate> body = new ArrayList<Coordinate>();
 
 	public Worm(int x, int y) {
 		body.add(new Coordinate(x, y));
+		alive=true;
 	}
 
 	public void action(World w) {
@@ -23,6 +25,9 @@ public class Worm {
 			}
 			body.remove(body.size()-1);
 			body.add(0, next);
+		}
+		else{
+			alive=false;
 		}
 	}
 
