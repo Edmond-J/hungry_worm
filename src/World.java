@@ -6,7 +6,7 @@ public class World {
 	int foodQua;
 	int wormQua;
 	String map[][] = new String[height][width];
-	ArrayList<Worm> wormList = new ArrayList<Worm>();
+	ArrayList<HungryWorm> wormList = new ArrayList<HungryWorm>();
 	ArrayList<Coordinate> foodList = new ArrayList<Coordinate>();
 
 	public World(int w, int h, int food, int worm) {
@@ -21,7 +21,7 @@ public class World {
 			int x = (int)(Math.random()*width);
 			int y = (int)(Math.random()*height);
 			if (checkAva(x, y)) {
-				wormList.add(new Worm(x, y));
+				wormList.add(new HungryWorm(x, y));
 				i++;
 			}
 		}
@@ -41,7 +41,7 @@ public class World {
 		if (x < 0 || x > width-1 || y < 0 || y > height-1) {
 			return false;
 		}
-		for (Worm w : wormList) {
+		for (HungryWorm w : wormList) {
 			for (Coordinate co : w.body) {
 				if ((x == co.x && y == co.y)) {
 					return false;
@@ -51,18 +51,18 @@ public class World {
 		return true;
 	}
 
-	public void refreshWrold(int n, int speed) {
+	public void refreshWrold() {
 		while (checkAlive()) {
 			drawWorld();
 			try {
-				Thread.sleep(1000/speed);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 			}
 		}
 	}
 
 	public boolean checkAlive() {
-		for (Worm w : wormList) {
+		for (HungryWorm w : wormList) {
 			if (w.alive)
 				return true;
 		}
@@ -73,7 +73,7 @@ public class World {
 	public void drawWorld() {// 不断刷新
 		map = new String[height][width];
 		createFood();
-		for (Worm w : wormList) {// load the new position of all bugs
+		for (HungryWorm w : wormList) {// load the new position of all bugs
 			for (Coordinate co : w.body) {
 				map[co.y][co.x] = "O ";
 			}
@@ -97,7 +97,7 @@ public class World {
 			System.out.println('|');
 		}
 		System.out.println("------------------------------------------");
-		for (Worm w : wormList) {
+		for (HungryWorm w : wormList) {
 			if(w.alive)
 			w.action(this);
 		}

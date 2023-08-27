@@ -1,20 +1,27 @@
 import java.util.ArrayList;
 
-public class Worm {
+public class HungryWorm {
 	boolean alive;
 	ArrayList<Coordinate> body = new ArrayList<Coordinate>();
 
-	public Worm(int x, int y) {
+	public HungryWorm(int x, int y) {
 		body.add(new Coordinate(x, y));
-		alive=true;
+		body.add(new Coordinate(x, y));
+		body.add(new Coordinate(x, y));
+		body.add(new Coordinate(x, y));
+		alive = true;
 	}
 
 	public void action(World w) {
-		for (int i = 0; body.size() < 3; i++) {
-			Coordinate tail = findDirect(body.get(i), w);
-			body.add(tail);
+		int xforward = 2*body.get(0).x-body.get(1).x;
+		int yforward = 2*body.get(0).y-body.get(1).y;
+		Coordinate next = new Coordinate();
+		// 有40%的几率直接往前尝试
+		if (Math.random() < 0.4 && w.checkAva(xforward, yforward)) {
+			next = new Coordinate(xforward, yforward);
+		} else {
+			next = findDirect(body.get(0), w);
 		}
-		Coordinate next = findDirect(body.get(0), w);
 		if (next != null) {
 			for (Coordinate food : w.foodList) {
 				if (next.x == food.x && next.y == food.y) {
@@ -25,9 +32,8 @@ public class Worm {
 			}
 			body.remove(body.size()-1);
 			body.add(0, next);
-		}
-		else{
-			alive=false;
+		} else {
+			alive = false;
 		}
 	}
 
